@@ -1,35 +1,50 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { IsEmail, isNotEmpty, IsNotEmpty, IsString } from 'class-validator';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
+import { Role } from './roles.enum';
 @Entity()
 export class User {
+
   @PrimaryGeneratedColumn()
   id: number;
 
+  @IsNotEmpty()
+  @IsString()
   @Column()
-  name:string;
+  parent_name:string;
 
+  @IsNotEmpty()
+  @IsString()
   @Column()
-  email:string;
+  parent_password:string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  @Column()
+  parent_email:string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Column()
+  parent_number:string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Column({nullable:true})
+  parent_dob:string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Column()
+  parent_photo:string;
+
+  @Column({type:'enum', enum:Role, default:Role.Parent})
+  role:Role
   
-  @Column()
-  cell_number: number
+  @CreateDateColumn()
+  createAt:Date
 
-  @Column()
-  parent_photo:string
-  
-  @Column()
-  password:string;
-  
-  @Column()
-  child_name:string;
-
-  @Column()
-  dob:string;
-
-  @Column()
-  allergies:string
-
-  @Column()
-  child_photo:string
+  @UpdateDateColumn()
+  updateAt:Date
 }
